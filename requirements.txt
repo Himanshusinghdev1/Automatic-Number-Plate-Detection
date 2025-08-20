@@ -18,3 +18,8 @@ Pillow==10.4.0
 # Utils
 tqdm==4.66.1
 pyyaml==6.0.1
+python-box
+ensure
+joblib
+gdown
+-e . 
