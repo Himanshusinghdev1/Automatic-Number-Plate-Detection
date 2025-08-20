@@ -1,0 +1,22 @@
+DATA_INGESTION:
+  dataset_source: "kagglehub"
+  dataset_name: "aslanahmedov/number-plate-detection"
+  download_timeout: 300
+
+DATA_PREPROCESSING:
+  annotation_format: "xml"
+  target_format: "yolo"
+  image_extensions: ['.jpg', '.jpeg', '.png']
+  min_image_size: [100, 100]
+  max_image_size: [2000, 2000]
+
+# New YOLOv5 Setup Parameters
+YOLOV5_SETUP:
+  python_version_requirement: ">=3.8"
+  torch_version: ">=1.7"
+  force_reinstall: false
+  verify_installation: true
+
+VALIDATION:
+  random_seed: 42
+  shuffle: true

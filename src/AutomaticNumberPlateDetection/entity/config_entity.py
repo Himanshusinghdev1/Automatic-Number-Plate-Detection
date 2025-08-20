@@ -18,10 +18,3 @@ class DataPreprocessingConfig:
     train_split: float
     val_split: float
     img_format: list
-
-@dataclass(frozen=True)
-class YOLOv5SetupConfig:
-    root_dir: Path
-    repository_url: str
-    data_yaml_path: Path
-    weights_dir: Path

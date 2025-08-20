@@ -22,4 +22,6 @@ python-box
 ensure
 joblib
 gdown
+kagglehub
+scikit-learn
 -e . 

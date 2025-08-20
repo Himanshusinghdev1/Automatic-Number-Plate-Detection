@@ -1,0 +1,23 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  dataset_name: "aslanahmedov/number-plate-detection"
+  local_data_file: artifacts/data_ingestion/data.zip
+  unzip_dir: artifacts/data_ingestion
+
+data_preprocessing:
+  root_dir: artifacts/data_preprocessing
+  raw_data_dir: artifacts/data_ingestion
+  processed_images_dir: artifacts/data_preprocessing/images
+  processed_labels_dir: artifacts/data_preprocessing/labels
+  train_split: 0.8
+  val_split: 0.2
+  img_format: ['.jpg', '.jpeg', '.png']
+
+# New YOLOv5 Setup Configuration
+yolov5_setup:
+  root_dir: yolov5
+  repository_url: "https://github.com/ultralytics/yolov5.git"
+  data_yaml_path: artifacts/data_preprocessing/data.yaml
+  weights_dir: models

@@ -1,0 +1,6 @@
+# ANPR Dataset Configuration
+train: artifacts/data_preprocessing/images/train
+val: artifacts/data_preprocessing/images/val
+
+nc: 1
+names: ['license_plate']
