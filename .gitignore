@@ -146,6 +146,10 @@ venv.bak/
 plate/
 artifacts/
 yolov5/*
+test_images/*
+test_videos/*
+video_results/*
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -207,3 +211,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+test_images/
+test_videos/
+video_results/
