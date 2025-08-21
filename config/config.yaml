@@ -53,3 +53,16 @@ ocr_integration:
   ocr_confidence: 0.5
   max_width: 1024
   output_format: "json"
+
+video_inference:
+  model_path: models/best.pt
+  video_path: test_videos/test.mp4   
+  output_dir: video_results
+  languages: ['en']
+  detection_confidence: 0.5
+  ocr_confidence: 0.5
+  process_every_n_frames: 5          
+  save_video: true
+  max_video_length: 400               
+  batch_size: 1
+  device: ""

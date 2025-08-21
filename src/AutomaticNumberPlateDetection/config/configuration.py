@@ -6,7 +6,8 @@ from AutomaticNumberPlateDetection.entity import (
     YOLOv5SetupConfig,
     ModelTrainingConfig,
     ModelTestingConfig,
-    OCRIntegrationConfig
+    OCRIntegrationConfig,
+    VideoInferenceConfig
 )
 from pathlib import Path
 
@@ -134,3 +135,29 @@ class ConfigurationManager:
         )
 
         return ocr_integration_config
+
+    def get_video_inference_config(self) -> VideoInferenceConfig:
+        """Get video inference configuration"""
+        # Fix: Use dictionary key access instead of attribute access
+        config = self.config['video_inference']  # Instead of self.config.video_inference
+
+        create_directories([
+            config['output_dir'],
+            Path(config['video_path']).parent
+        ])
+
+        video_inference_config = VideoInferenceConfig(
+            model_path=Path(config['model_path']),
+            video_path=Path(config['video_path']),
+            output_dir=Path(config['output_dir']),
+            languages=config['languages'],
+            detection_confidence=config['detection_confidence'],
+            ocr_confidence=config['ocr_confidence'],
+            process_every_n_frames=config['process_every_n_frames'],
+            save_video=config['save_video'],
+            max_video_length=config['max_video_length'],
+            batch_size=config.get('batch_size', 1),
+            device=config.get('device', "")
+        )
+
+        return video_inference_config

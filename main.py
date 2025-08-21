@@ -5,6 +5,7 @@ from AutomaticNumberPlateDetection.pipeline.stage_03_yolov5_setup import YOLOv5S
 from AutomaticNumberPlateDetection.pipeline.stage_04_model_training import ModelTrainingTrainingPipeline
 from AutomaticNumberPlateDetection.pipeline.stage_05_model_testing import ModelTestingTrainingPipeline
 from AutomaticNumberPlateDetection.pipeline.stage_06_ocr_integration import OCRIntegrationPipeline
+from AutomaticNumberPlateDetection.pipeline.stage_07_video_inference import VideoInferencePipeline
 
 # Stage 01 - Data Ingestion
 STAGE_NAME = "Data Ingestion stage"
@@ -67,6 +68,17 @@ try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
    ocr_integration = OCRIntegrationPipeline()
    ocr_integration.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
+
+# Stage 07 - Video Inference
+STAGE_NAME = "Video Inference stage"
+try:
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   video_inference = VideoInferencePipeline()
+   video_inference.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
         logger.exception(e)

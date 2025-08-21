@@ -61,3 +61,17 @@ class OCRIntegrationConfig:
     ocr_confidence: float
     max_width: int
     output_format: str
+
+@dataclass(frozen=True)
+class VideoInferenceConfig:
+    model_path: Path
+    video_path: Path
+    output_dir: Path
+    languages: List[str]
+    detection_confidence: float
+    ocr_confidence: float
+    process_every_n_frames: int
+    save_video: bool
+    max_video_length: int
+    batch_size: int = 1
+    device: str = ""

@@ -54,6 +54,32 @@ OCR_INTEGRATION:
     save_cropped_plates: true
     generate_report: true
 
+VIDEO_INFERENCE:
+  frame_processing:
+    skip_frames: 5
+    max_frames: 9000  # 5 minutes at 30fps
+    resize_frame: true
+    target_size: [1280, 720]
+  
+  performance:
+    use_gpu: true
+    batch_processing: false
+    parallel_ocr: false
+    memory_optimization: true
+  
+  output:
+    save_annotated_video: true
+    save_frame_crops: false
+    video_codec: "mp4v"
+    video_quality: 0.8
+    
+  filtering:
+    min_plate_area: 100
+    max_plate_area: 50000
+    aspect_ratio_range: [1.5, 6.0]
+    duplicate_suppression: true
+    time_window: 2.0  # seconds
+
 VALIDATION:
   random_seed: 42
   shuffle: true
