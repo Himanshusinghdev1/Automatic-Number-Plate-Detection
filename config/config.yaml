@@ -21,7 +21,7 @@ yolov5_setup:
   data_yaml_path: artifacts/data_preprocessing/data.yaml
   weights_dir: models
 
-# Add this missing section:
+
 model_training:
   root_dir: models
   yolov5_dir: yolov5
@@ -32,6 +32,8 @@ model_training:
   epochs: 100
   workers: 8
   device: ""  # auto-detect GPU/CPU
+  patience: 10        
+  min_delta: 0.001    
 
 model_testing:
   root_dir: models

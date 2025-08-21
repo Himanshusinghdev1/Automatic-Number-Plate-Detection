@@ -13,7 +13,7 @@ class ModelTraining:
     def start_model_training(self):
         """Start YOLOv5 model training"""
         try:
-            logger.info("🎯 Starting YOLO model training...")
+            logger.info("🎯 Starting YOLO model training with early stopping...")
             
             # Ensure paths are Path objects
             data_yaml_path = self.config.yolov5_dir / "data.yaml"  # Path object
@@ -30,20 +30,22 @@ class ModelTraining:
                 "--weights", self.config.base_weights,
                 "--name", self.config.model_name,
                 "--cache",
-                "--workers", str(self.config.workers)
+                "--workers", str(self.config.workers),
+                "--patience", str(self.config.patience)
             ]
             
             if self.config.device:
                 train_cmd.extend(["--device", self.config.device])
             
             logger.info(f"Training command: {' '.join(train_cmd)}")
+            logger.info(f"Early stopping enabled: patience={self.config.patience} epochs")
             
             # Execute training from yolov5 directory
             result = subprocess.run(
                 train_cmd, 
-                cwd=str(self.config.yolov5_dir),  # Convert Path to string for subprocess
+                cwd=str(self.config.yolov5_dir),
                 # capture_output=True, 
-                bufsize=1,  # Line buffered
+                bufsize=1,
                 universal_newlines=True,
                 text=True
             )

@@ -87,7 +87,9 @@ class ConfigurationManager:
             batch_size=config['batch_size'],
             epochs=config['epochs'],
             workers=config['workers'],
-            device=config['device']
+            device=config['device'],
+            patience=config.get('patience', 10),        
+            min_delta=config.get('min_delta', 0.001)
         )
 
         return model_training_config

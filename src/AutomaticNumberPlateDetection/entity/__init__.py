@@ -38,6 +38,9 @@ class ModelTrainingConfig:
     epochs: int
     workers: int
     device: str
+    patience: int = 10        
+    min_delta: float = 0.001  
+
 
 
 @dataclass(frozen=True)
