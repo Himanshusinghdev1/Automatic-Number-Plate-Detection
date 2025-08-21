@@ -15,9 +15,28 @@ data_preprocessing:
   val_split: 0.2
   img_format: ['.jpg', '.jpeg', '.png']
 
-# New YOLOv5 Setup Configuration
 yolov5_setup:
   root_dir: yolov5
   repository_url: "https://github.com/ultralytics/yolov5.git"
   data_yaml_path: artifacts/data_preprocessing/data.yaml
   weights_dir: models
+
+# Add this missing section:
+model_training:
+  root_dir: models
+  yolov5_dir: yolov5
+  model_name: "anpr_model"
+  base_weights: "yolov5s.pt"
+  img_size: 640
+  batch_size: 16
+  epochs: 100
+  workers: 8
+  device: ""  # auto-detect GPU/CPU
+
+model_testing:
+  root_dir: models
+  trained_model_path: models/best.pt
+  test_images_dir: test_images
+  results_dir: results
+  confidence_threshold: 0.5
+  iou_threshold: 0.45

@@ -25,3 +25,26 @@ class YOLOv5SetupConfig:
     repository_url: str
     data_yaml_path: Path
     weights_dir: Path
+
+
+@dataclass(frozen=True)
+class ModelTrainingConfig:
+    root_dir: Path
+    yolov5_dir: Path
+    model_name: str
+    base_weights: str
+    img_size: int
+    batch_size: int
+    epochs: int
+    workers: int
+    device: str
+
+
+@dataclass(frozen=True)
+class ModelTestingConfig:
+    root_dir: Path
+    trained_model_path: Path
+    test_images_dir: Path
+    results_dir: Path
+    confidence_threshold: float
+    iou_threshold: float

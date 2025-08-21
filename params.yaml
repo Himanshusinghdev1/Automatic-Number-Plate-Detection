@@ -10,12 +10,42 @@ DATA_PREPROCESSING:
   min_image_size: [100, 100]
   max_image_size: [2000, 2000]
 
-# New YOLOv5 Setup Parameters
 YOLOV5_SETUP:
   python_version_requirement: ">=3.8"
   torch_version: ">=1.7"
   force_reinstall: false
   verify_installation: true
+
+# New Training Parameters
+MODEL_TRAINING:
+  optimizer: "SGD"
+  learning_rate: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  augmentation:
+    hsv_h: 0.015
+    hsv_s: 0.7
+    hsv_v: 0.4
+    degrees: 0.0
+    translate: 0.1
+    scale: 0.5
+    shear: 0.0
+    perspective: 0.0
+    flipud: 0.0
+    fliplr: 0.5
+    mosaic: 1.0
+    mixup: 0.0
+
+MODEL_TESTING:
+  save_txt: true
+  save_conf: true
+  save_crop: false
+  nosave: false
+  agnostic_nms: false
+  max_det: 1000
 
 VALIDATION:
   random_seed: 42

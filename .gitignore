@@ -145,6 +145,7 @@ env.bak/
 venv.bak/
 plate/
 artifacts/
+yolov5/*
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -14,16 +14,26 @@ class DataPreprocessing:
         self.config = config
 
     def explore_dataset(self):
-        """Explore the dataset structure"""
-        raw_path = Path(self.config.raw_data_dir)
+        """Explore dataset structure - XML files are in images/ directory"""
+        raw_path = Path("artifacts/data_ingestion")
         logger.info(f"🔍 Exploring dataset at: {raw_path}")
         
-        # Find all files
-        all_files = list(raw_path.rglob("*"))
-        image_files = [f for f in all_files if f.suffix.lower() in self.config.img_format]
-        annotation_files = [f for f in all_files if f.suffix.lower() in ['.xml', '.txt', '.json']]
+        # Both images AND XML files are in images/ subdirectory
+        images_dir = raw_path / "images"
+        
+        if not images_dir.exists():
+            raise Exception(f"Images directory not found: {images_dir}")
+        
+        # Get images from images/ directory
+        image_files = []
+        for ext in self.config.img_format:
+            image_files.extend(images_dir.glob(f"*{ext}"))
+        
+        # Get XML files from SAME images/ directory
+        annotation_files = list(images_dir.glob("*.xml"))
         
         logger.info(f"📊 Found {len(image_files)} images and {len(annotation_files)} annotations")
+        logger.info(f"⚠️ {len(image_files) - len(annotation_files)} images missing annotations")
         
         return image_files, annotation_files
 
@@ -57,23 +67,30 @@ class DataPreprocessing:
         return yolo_annotations
 
     def process_annotations(self):
-        """Process all annotations to YOLO format"""
+        """Process all annotations to YOLO format with proper missing annotation handling"""
         logger.info("🔄 Converting annotations to YOLO format...")
         
         image_files, annotation_files = self.explore_dataset()
         
         processed_data = []
+        skipped_count = 0
         
         for img_file in tqdm(image_files, desc="Processing images"):
-            # Find corresponding annotation file
+            # Skip TEST.jpeg from training data
+            if img_file.name.upper() == 'TEST.JPEG':
+                logger.info(f"⏭️ Skipping test image: {img_file.name}")
+                continue
+            
+            # Find corresponding annotation file in SAME directory
             annotation_file = None
             for ann_file in annotation_files:
-                if img_file.stem == ann_file.stem:
+                if img_file.stem == ann_file.stem:  # N1.jpeg matches N1.xml
                     annotation_file = ann_file
                     break
             
             if annotation_file is None:
                 logger.warning(f"⚠️ No annotation found for {img_file.name}")
+                skipped_count += 1
                 continue
             
             # Get image dimensions
@@ -84,11 +101,10 @@ class DataPreprocessing:
                 
             img_height, img_width = image.shape[:2]
             
-            # Convert annotation
+            # Convert XML to YOLO format
             if annotation_file.suffix.lower() == '.xml':
                 yolo_annotations = self.xml_to_yolo(annotation_file, img_width, img_height)
             else:
-                # Handle other formats if needed
                 logger.warning(f"⚠️ Unsupported annotation format: {annotation_file.suffix}")
                 continue
             
@@ -99,6 +115,8 @@ class DataPreprocessing:
                 })
         
         logger.info(f"✅ Processed {len(processed_data)} image-annotation pairs")
+        logger.info(f"⚠️ Skipped {skipped_count + 1} images (missing annotations + test image)")
+        
         return processed_data
 
     def split_and_organize_data(self):
@@ -111,7 +129,7 @@ class DataPreprocessing:
         if not processed_data:
             raise Exception("No valid data found to process")
         
-        # Split data
+        # Split data (225 valid pairs → ~180 train, ~45 val)
         train_data, val_data = train_test_split(
             processed_data, 
             train_size=self.config.train_split,
@@ -153,19 +171,25 @@ class DataPreprocessing:
         self.create_data_yaml()
 
     def create_data_yaml(self):
-        """Create data.yaml file for YOLO training"""
-        data_yaml_content = f"""# ANPR Dataset Configuration
-train: {self.config.processed_images_dir}/train
-val: {self.config.processed_images_dir}/val
+        """Create data.yaml file for YOLO training with correct relative paths"""
+        # Create paths relative to YOLOv5 directory (using ../ prefix)
+        data_yaml_content = f"""train: ../artifacts/data_preprocessing/images/train
+val: ../artifacts/data_preprocessing/images/val
 
 nc: 1
 names: ['license_plate']
 """
         
+        # Save in preprocessing directory
         yaml_path = Path(self.config.root_dir) / "data.yaml"
         with open(yaml_path, 'w') as f:
             f.write(data_yaml_content)
         
-        # Also copy to project root
-        shutil.copy2(yaml_path, "data.yaml")
+        # Copy to YOLOv5 directory with correct relative paths
+        yolov5_yaml = Path("yolov5") / "data.yaml"
+        yolov5_yaml.parent.mkdir(exist_ok=True)
+        with open(yolov5_yaml, 'w') as f:
+            f.write(data_yaml_content)
+        
+        logger.info(f"📝 Created data.yaml for YOLOv5 training with relative paths")
         logger.info(f"📝 Created data.yaml at: {yaml_path}")

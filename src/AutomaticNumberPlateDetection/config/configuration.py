@@ -3,7 +3,9 @@ from AutomaticNumberPlateDetection.utils.common import read_yaml, create_directo
 from AutomaticNumberPlateDetection.entity import (
     DataIngestionConfig, 
     DataPreprocessingConfig,
-    YOLOv5SetupConfig
+    YOLOv5SetupConfig,
+    ModelTrainingConfig,
+    ModelTestingConfig
 )
 from pathlib import Path
 
@@ -70,3 +72,41 @@ class ConfigurationManager:
         )
 
         return yolov5_setup_config
+
+    def get_model_training_config(self) -> ModelTrainingConfig:
+        config = self.config['model_training']
+
+        create_directories([config['root_dir']])
+
+        model_training_config = ModelTrainingConfig(
+            root_dir=Path(config['root_dir']),
+            yolov5_dir=Path(config['yolov5_dir']),
+            model_name=config['model_name'],
+            base_weights=config['base_weights'],
+            img_size=config['img_size'],
+            batch_size=config['batch_size'],
+            epochs=config['epochs'],
+            workers=config['workers'],
+            device=config['device']
+        )
+
+        return model_training_config
+
+    def get_model_testing_config(self) -> ModelTestingConfig:
+        config = self.config['model_testing']
+
+        create_directories([
+            config['results_dir'],
+            config['test_images_dir']
+        ])
+
+        model_testing_config = ModelTestingConfig(
+            root_dir=Path(config['root_dir']),
+            trained_model_path=Path(config['trained_model_path']),
+            test_images_dir=Path(config['test_images_dir']),
+            results_dir=Path(config['results_dir']),
+            confidence_threshold=config['confidence_threshold'],
+            iou_threshold=config['iou_threshold']
+        )
+
+        return model_testing_config
