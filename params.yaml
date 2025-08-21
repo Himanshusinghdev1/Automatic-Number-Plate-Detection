@@ -16,20 +16,16 @@ YOLOV5_SETUP:
   force_reinstall: false
   verify_installation: true
 
-# New Training Parameters
 MODEL_TRAINING:
   optimizer: "SGD"
   learning_rate: 0.01
   momentum: 0.937
   weight_decay: 0.0005
-  
-  # Early Stopping Parameters
   early_stopping:
-    patience: 10          # Stop after N epochs without improvement
-    min_delta: 0.001      # Minimum change to qualify as improvement
-    monitor_metric: "mAP" # Metric to monitor (mAP, precision, recall)
-    mode: "max"           # "max" for mAP, "min" for loss
-
+    patience: 10
+    min_delta: 0.001
+    monitor_metric: "mAP"
+    mode: "max"
 
 MODEL_TESTING:
   save_txt: true
@@ -38,6 +34,25 @@ MODEL_TESTING:
   nosave: false
   agnostic_nms: false
   max_det: 1000
+
+# New OCR Parameters
+OCR_INTEGRATION:
+  preprocessing:
+    resize_factor: 2.0
+    gaussian_blur_kernel: [3, 3]
+    contrast_alpha: 1.2
+    brightness_beta: 10
+  
+  text_filtering:
+    min_text_length: 2
+    max_text_length: 15
+    allowed_chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    remove_special_chars: true
+  
+  postprocessing:
+    format_output: true
+    save_cropped_plates: true
+    generate_report: true
 
 VALIDATION:
   random_seed: 42

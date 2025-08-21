@@ -42,3 +42,14 @@ model_testing:
   results_dir: results
   confidence_threshold: 0.5
   iou_threshold: 0.45
+
+ocr_integration:
+  root_dir: models
+  model_path: models/best.pt
+  test_images_dir: test_images
+  output_dir: ocr_results
+  languages: ['en']
+  detection_confidence: 0.5
+  ocr_confidence: 0.5
+  max_width: 1024
+  output_format: "json"

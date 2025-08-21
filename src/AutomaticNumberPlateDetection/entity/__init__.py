@@ -1,6 +1,7 @@
 # src/AutomaticNumberPlateDetection/entity/__init__.py
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List
 
 @dataclass(frozen=True)
 class DataIngestionConfig:
@@ -26,7 +27,6 @@ class YOLOv5SetupConfig:
     data_yaml_path: Path
     weights_dir: Path
 
-
 @dataclass(frozen=True)
 class ModelTrainingConfig:
     root_dir: Path
@@ -38,10 +38,8 @@ class ModelTrainingConfig:
     epochs: int
     workers: int
     device: str
-    patience: int = 10        
-    min_delta: float = 0.001  
-
-
+    patience: int = 10
+    min_delta: float = 0.001
 
 @dataclass(frozen=True)
 class ModelTestingConfig:
@@ -51,3 +49,15 @@ class ModelTestingConfig:
     results_dir: Path
     confidence_threshold: float
     iou_threshold: float
+
+@dataclass(frozen=True)
+class OCRIntegrationConfig:
+    root_dir: Path
+    model_path: Path
+    test_images_dir: Path
+    output_dir: Path
+    languages: List[str]
+    detection_confidence: float
+    ocr_confidence: float
+    max_width: int
+    output_format: str

@@ -1,0 +1,97 @@
+[
+  {
+    "image_name": "TEST.jpeg",
+    "image_path": "test_images/TEST.jpeg",
+    "plates": [
+      {
+        "plate_id": 1,
+        "bbox": [
+          328,
+          486,
+          584,
+          540
+        ],
+        "detection_confidence": 0.8853196501731873,
+        "text": "",
+        "text_confidence": 0.0
+      }
+    ],
+    "total_plates": 1
+  },
+  {
+    "image_name": "N1.jpeg",
+    "image_path": "test_images/N1.jpeg",
+    "plates": [
+      {
+        "plate_id": 1,
+        "bbox": [
+          1099,
+          646,
+          1399,
+          726
+        ],
+        "detection_confidence": 0.8158844709396362,
+        "text": "",
+        "text_confidence": 0.0
+      }
+    ],
+    "total_plates": 1
+  },
+  {
+    "image_name": "N200.jpeg",
+    "image_path": "test_images/N200.jpeg",
+    "plates": [
+      {
+        "plate_id": 1,
+        "bbox": [
+          195,
+          226,
+          442,
+          291
+        ],
+        "detection_confidence": 0.8798901438713074,
+        "text": "",
+        "text_confidence": 0.0
+      }
+    ],
+    "total_plates": 1
+  },
+  {
+    "image_name": "N150.jpeg",
+    "image_path": "test_images/N150.jpeg",
+    "plates": [
+      {
+        "plate_id": 1,
+        "bbox": [
+          159,
+          95,
+          370,
+          142
+        ],
+        "detection_confidence": 0.8769341111183167,
+        "text": "HH14E43498",
+        "text_confidence": 0.8
+      }
+    ],
+    "total_plates": 1
+  },
+  {
+    "image_name": "N100.jpeg",
+    "image_path": "test_images/N100.jpeg",
+    "plates": [
+      {
+        "plate_id": 1,
+        "bbox": [
+          134,
+          307,
+          300,
+          348
+        ],
+        "detection_confidence": 0.86885005235672,
+        "text": "HR26CT40637",
+        "text_confidence": 0.8
+      }
+    ],
+    "total_plates": 1
+  }
+]

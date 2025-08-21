@@ -5,7 +5,8 @@ from AutomaticNumberPlateDetection.entity import (
     DataPreprocessingConfig,
     YOLOv5SetupConfig,
     ModelTrainingConfig,
-    ModelTestingConfig
+    ModelTestingConfig,
+    OCRIntegrationConfig
 )
 from pathlib import Path
 
@@ -18,11 +19,9 @@ class ConfigurationManager:
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
 
-        # Fix: Use dictionary key access
         create_directories([self.config['artifacts_root']])
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
-        # Fix: Use dictionary key access
         config = self.config['data_ingestion']
 
         create_directories([config['root_dir']])
@@ -37,7 +36,7 @@ class ConfigurationManager:
         return data_ingestion_config
     
     def get_data_preprocessing_config(self) -> DataPreprocessingConfig:
-        # Fix: Use dictionary key access
+
         config = self.config['data_preprocessing']
 
         create_directories([
@@ -112,3 +111,26 @@ class ConfigurationManager:
         )
 
         return model_testing_config
+    
+    def get_ocr_integration_config(self) -> OCRIntegrationConfig:
+    
+        config = self.config['ocr_integration']
+
+        create_directories([
+            config['output_dir'],
+            config['test_images_dir']
+        ])
+
+        ocr_integration_config = OCRIntegrationConfig(
+            root_dir=Path(config['root_dir']),
+            model_path=Path(config['model_path']),
+            test_images_dir=Path(config['test_images_dir']),
+            output_dir=Path(config['output_dir']),
+            languages=config['languages'],
+            detection_confidence=config['detection_confidence'],
+            ocr_confidence=config['ocr_confidence'],
+            max_width=config['max_width'],
+            output_format=config['output_format']
+        )
+
+        return ocr_integration_config
